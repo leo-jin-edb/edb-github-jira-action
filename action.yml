@@ -6,7 +6,7 @@ inputs:
     required: true
     default: 'World'
   jira-host:  # Base jira host url
-    description: 'Jira Host Url',
+    description: 'Jira Host Url'
     required: true
 outputs:
   time: # id of output
