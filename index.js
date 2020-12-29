@@ -16,6 +16,7 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`)
   const { commits } = payload;
+  console.log('commits here = ', commits);
   const commitMssg = commits[0].message
   if(commitMssg) {
       console.log('commit message here = ', commitMssg);
