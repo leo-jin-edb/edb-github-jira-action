@@ -16,6 +16,6 @@ The time we greeted you.
 
 ## Example usage
 
-uses: actions/edb-github-jira-action@v1.1
+uses: actions/edb-github-jira-action@v1
 with:
-  who-to-greet: 'Leo Jin'
+  who-to-greet: 'Leo Jin' 
