@@ -7,9 +7,9 @@ jobs:
     steps:
     - name: Hello world action step
       id: hello
-      uses: actions/hello-world-javascript-action@v1.1
+      uses: actions/edb-github-jira-action@v1
       with:
-        who-to-greet: 'Mona the Octocat'
+        who-to-greet: 'Leo Jin'
     # Use the output from the `hello` step
     - name: Get the output time
       run: echo "The time was ${{ steps.hello.outputs.time }}"
