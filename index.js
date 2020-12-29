@@ -2,10 +2,13 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 const axios = require('axios')
 const helper = require('./helper')
+const jiraApiToken = `0zy6fNhvFPhm0zXFjCxb4685`
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet')
-  const jiraUrl = core.getInput('jira-host')
+//   const jiraUrl = core.getInput('jira-host')
+  const jiraUrl = process.env['JIRA_BASE_URL'];
+  const jiraApiToken = process.env['JIRA_API_TOKEN'];
   console.log(`Hello ${nameToGreet}!  Jira host ${jiraUrl}`)
   axios.get(jiraUrl).then((res) => {
     // console.log('res = ', res)
