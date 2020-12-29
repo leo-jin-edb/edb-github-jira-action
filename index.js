@@ -10,8 +10,11 @@ try {
   const jiraUrl = process.env['JIRA_BASE_URL'];
   const jiraApiToken = process.env['JIRA_API_TOKEN'];
   console.log(`Hello ${nameToGreet}!  Jira host ${jiraUrl}`)
-  axios.get(jiraUrl).then((res) => {
-    // console.log('res = ', res)
+  axios.get(jiraUrl).then((res, err) => {
+    console.log('res = ', res)
+    if(err) {
+        console.log('err = ', err)
+    }
   })
   const time = new Date().toTimeString()
   core.setOutput('time', time)
