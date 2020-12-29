@@ -9,7 +9,7 @@ jobs:
       id: hello
       uses: leo-jin-edb/edb-github-jira-action@v1
       with:
-        who-to-greet: 'Leo Jin'
+        # who-to-greet: 'Leo Jin'
         jira-host: 'https://edbtest.atlassian.net/'
     # Use the output from the `hello` step
     - name: Get the output time
