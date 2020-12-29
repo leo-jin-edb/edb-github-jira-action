@@ -7,7 +7,7 @@ jobs:
     steps:
     - name: Hello world action step
       id: hello
-      uses: actions/edb-github-jira-action@v1
+      uses: leo-jin-edb/edb-github-jira-action@v1
       with:
         who-to-greet: 'Leo Jin'
     # Use the output from the `hello` step
