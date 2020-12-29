@@ -1,7 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const axios = require('axios')
-const helper = require('./helper');
+const helper = require('./helper')
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet')
@@ -15,13 +15,13 @@ try {
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`)
-  const { commits } = github.context.payload,;
-  console.log('commits here = ', commits);
+  const { commits } = github.context.payload
+  console.log('commits here = ', commits)
   const commitMssg = commits[0].message
-  if(commitMssg) {
-      console.log('commit message here = ', commitMssg);
-      const jiraTicket = helper.extractJiraKey(commitMssg);
-      console.log('extracted jira tickeet = ', jiraTicket);
+  if (commitMssg) {
+    console.log('commit message here = ', commitMssg)
+    const jiraTicket = helper.extractJiraKey(commitMssg)
+    console.log('extracted jira tickeet = ', jiraTicket)
   }
 } catch (error) {
   core.setFailed(error.message)
