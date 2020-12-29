@@ -7,7 +7,7 @@ jobs:
     steps:
     - name: Hello world action step
       id: hello
-      uses: leo-jin-edb/edb-github-jira-action@v1
+      uses: leo-jin-edb/edb-github-jira-action@main
       with:
         # who-to-greet: 'Leo Jin'
         jira-host: 'https://edbtest.atlassian.net/'
