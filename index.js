@@ -3,6 +3,8 @@ const github = require('@actions/github')
 const axios = require('axios')
 const helper = require('./helper')
 const service = require('./service')
+const catchError = require('rxjs/operators/catchError')
+const { of } = require('rxjs')
 try {
   // `who-to-greet` input defined in action metadata file
   //   const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest/project`
@@ -48,11 +50,9 @@ try {
         // get ticket info
         service
           .getJiraTicketDetails(jiraTicket)
-          .then((res) => {
-            console.log('ticket res = ', res.data)
-          })
-          .catch((e) => {
-            console.log('error: ', e)
+          .pipe(catchError((e) => of(e)))
+          .subscribe((result) => {
+            console.log('resut = ', result)
           })
       }
       console.log('extracted jira tickeet = ', jiraTicket)

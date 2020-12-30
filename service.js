@@ -1,5 +1,6 @@
 const { default: axios } = require('axios')
 const { extractJiraKey } = require('./helper')
+const { from } = require('rxjs')
 
 // global vars
 const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest`
@@ -37,7 +38,7 @@ const processCommit = (gitCommit) => {
 
 const getJiraTicketDetails = (ticketId) => {
   console.log(`involking getJiraDetails with ticket id ${ticketId}`)
-  return axios.get(`${jiraUrl}/issue/${ticketId}`)
+  return from(axios.get(`${jiraUrl}/issue/${ticketId}`));
 }
 
 module.exports = {
