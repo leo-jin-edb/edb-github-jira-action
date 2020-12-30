@@ -12,7 +12,7 @@ try {
     method: 'get',
     url: `${jiraUrl}/rest/api/latest/project`,
     headers: {
-      Authorization: `Basic ${JIRA_API_TOKEN}`,
+      Authorization: `Basic ${jiraApiToken}`,
     },
   }
   axios.get(jiraUrl).then((res, err) => {
