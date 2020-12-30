@@ -7,7 +7,7 @@ try {
   // `who-to-greet` input defined in action metadata file
   const jiraUrl = process.env['JIRA_BASE_URL']
   const jiraApiToken = process.env['JIRA_API_TOKEN']
-  console.log(`Jira host ${jiraUrl}`)
+//   console.log(`Jira host ${jiraUrl}`)
   const httpConfig = {
     method: 'get',
     url: `${jiraUrl}/rest/api/latest/project`,
@@ -15,6 +15,7 @@ try {
       Authorization: `Basic ${jiraApiToken}`,
     },
   }
+  console.log('http config = ', JSON.stringify(httpConfig));
   axios(httpConfig).then((res, err) => {
     console.log('res = ', res)
     if (err) {
