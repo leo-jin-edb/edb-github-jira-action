@@ -5,15 +5,20 @@ const helper = require('./helper')
 const jiraApiToken = `0zy6fNhvFPhm0zXFjCxb4685`
 try {
   // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet')
-//   const jiraUrl = core.getInput('jira-host')
-  const jiraUrl = process.env['JIRA_BASE_URL'];
-  const jiraApiToken = process.env['JIRA_API_TOKEN'];
-  console.log(`Hello ${nameToGreet}!  Jira host ${jiraUrl}`)
+  const jiraUrl = process.env['JIRA_BASE_URL']
+  const jiraApiToken = process.env['JIRA_API_TOKEN']
+  console.log(`Jira host ${jiraUrl}`)
+  const httpConfig = {
+    method: 'get',
+    url: `${jiraUrl}/rest/api/latest/project`,
+    headers: {
+      Authorization: `Basic ${JIRA_API_TOKEN}`,
+    },
+  }
   axios.get(jiraUrl).then((res, err) => {
     console.log('res = ', res)
-    if(err) {
-        console.log('err = ', err)
+    if (err) {
+      console.log('err = ', err)
     }
   })
   const time = new Date().toTimeString()
