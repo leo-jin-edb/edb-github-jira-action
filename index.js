@@ -8,7 +8,7 @@ try {
   const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest/project`
   const jiraApiToken = process.env['JIRA_API_TOKEN']
   axios
-    .get(httpConfig.url, {
+    .get(jiraUrl, {
       auth: {
         username: 'leo.jin@enterprisedb.com',
         password: jiraApiToken,
