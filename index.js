@@ -52,7 +52,7 @@ try {
           .getJiraTicketDetails(jiraTicket)
           .pipe(catchError((e) => of(e)))
           .subscribe((result) => {
-            console.log('resut = ', result)
+            console.log('rxjs resut = ', result)
           })
       }
       console.log('extracted jira tickeet = ', jiraTicket)
