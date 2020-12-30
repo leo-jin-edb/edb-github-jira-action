@@ -14,7 +14,7 @@ try {
         ...config,
         auth: {
           username: 'leo.jin@enterprisedb.com',
-          password: jiraToken,
+          password: jiraApiToken,
         },
       }
     },
@@ -29,7 +29,7 @@ try {
       console.log('res = ', res.data)
     })
     .catch((e) => {
-      console.log('error = ', error)
+      console.log('error = ', e)
     })
   const time = new Date().toTimeString()
   core.setOutput('time', time)
