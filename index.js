@@ -2,26 +2,24 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 const axios = require('axios')
 const helper = require('./helper')
-const jiraApiToken = `0zy6fNhvFPhm0zXFjCxb4685`
+// const jiraApiToken = `0zy6fNhvFPhm0zXFjCxb4685`
 try {
   // `who-to-greet` input defined in action metadata file
-  const jiraUrl = process.env['JIRA_BASE_URL']
+  const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest/project`
   const jiraApiToken = process.env['JIRA_API_TOKEN']
-//   console.log(`Jira host ${jiraUrl}`)
-  const httpConfig = {
-    method: 'get',
-    url: `${jiraUrl}/rest/api/latest/project`,
-    headers: {
-      Authorization: `Basic ${jiraApiToken}`,
-    },
-  }
-  console.log('http config = ', JSON.stringify(httpConfig));
-  axios(httpConfig).then((res, err) => {
-    console.log('res = ', res)
-    if (err) {
-      console.log('err = ', err)
-    }
-  })
+  axios
+    .get(httpConfig.url, {
+      auth: {
+        username: 'leo.jin@enterprisedb.com',
+        password: jiraApiToken,
+      },
+    })
+    .then((res) => {
+      console.log('res = ', res)
+    })
+    .catch((e) => {
+      console.log('error = ', error)
+    })
   const time = new Date().toTimeString()
   core.setOutput('time', time)
   // Get the JSON webhook payload for the event that triggered the workflow
