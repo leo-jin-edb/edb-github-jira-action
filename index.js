@@ -7,15 +7,26 @@ try {
   // `who-to-greet` input defined in action metadata file
   const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest/project`
   const jiraApiToken = process.env['JIRA_API_TOKEN']
+  axios.interceptors.request.use(
+    (config) => {
+      console.log('config = ', config)
+      return {
+        ...config,
+        auth: {
+          username: 'leo.jin@enterprisedb.com',
+          password: jiraToken,
+        },
+      }
+    },
+    (err) => {
+      Promise.reject(err)
+    }
+  )
+
   axios
-    .get(jiraUrl, {
-      auth: {
-        username: 'leo.jin@enterprisedb.com',
-        password: jiraApiToken,
-      },
-    })
+    .get(jiraUrl)
     .then((res) => {
-      console.log('res = ', res)
+      console.log('res = ', res.data)
     })
     .catch((e) => {
       console.log('error = ', error)
