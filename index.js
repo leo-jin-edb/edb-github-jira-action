@@ -38,11 +38,13 @@ try {
   console.log(`The event payload: ${payload}`)
   const { commits } = github.context.payload
   console.log('commits here = ', commits)
-  const commitMssg = commits[0].message
-  if (commitMssg) {
-    console.log('commit message here = ', commitMssg)
-    const jiraTicket = helper.extractJiraKey(commitMssg)
-    console.log('extracted jira tickeet = ', jiraTicket)
+  if (commits) {
+    const commitMssg = commits[0].message
+    if (commitMssg) {
+      console.log('commit message here = ', commitMssg)
+      const jiraTicket = helper.extractJiraKey(commitMssg)
+      console.log('extracted jira tickeet = ', jiraTicket)
+    }
   }
 } catch (error) {
   core.setFailed(error.message)
