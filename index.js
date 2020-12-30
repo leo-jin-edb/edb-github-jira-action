@@ -50,7 +50,6 @@ try {
         // get ticket info
         service
           .getJiraTicketDetails(jiraTicket)
-          .pipe(catchError((e) => of(e)))
           .subscribe((result) => {
             console.log('rxjs resut = ', result)
           })

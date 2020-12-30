@@ -1,6 +1,7 @@
 const { default: axios } = require('axios')
 const { extractJiraKey } = require('./helper')
-const { from } = require('rxjs')
+const { from, of } = require('rxjs')
+const { map, catchError } = require('rxjs/operators')
 
 // global vars
 const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest`
@@ -28,17 +29,20 @@ axios.interceptors.request.use(
 const processCommit = (gitCommit) => {
   const { message } = gitCommit
   if (message) {
-      const jiraKey = extractJiraKey(message);
-      if(jiraKey) {
-          // get jira status
-          // move the ticket if status is in ToDo
-      }
+    const jiraKey = extractJiraKey(message)
+    if (jiraKey) {
+      // get jira status
+      // move the ticket if status is in ToDo
+    }
   }
 }
 
 const getJiraTicketDetails = (ticketId) => {
   console.log(`involking getJiraDetails with ticket id ${ticketId}`)
-  return from(axios.get(`${jiraUrl}/issue/${ticketId}`));
+  return from(axios.get(`${jiraUrl}/issue/${ticketId}`)).pipe(
+    map((res) => res.data),
+    catchError((e) => of(e))
+  )
 }
 
 module.exports = {
