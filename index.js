@@ -3,7 +3,7 @@ const github = require('@actions/github')
 const axios = require('axios')
 const helper = require('./helper')
 const service = require('./service')
-const catchError = require('rxjs/operators/catchError')
+const { catchError } = require('rxjs/operators')
 const { of } = require('rxjs')
 try {
   // `who-to-greet` input defined in action metadata file
