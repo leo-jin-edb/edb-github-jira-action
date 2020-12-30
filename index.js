@@ -15,7 +15,7 @@ try {
       Authorization: `Basic ${jiraApiToken}`,
     },
   }
-  axios.get(jiraUrl).then((res, err) => {
+  axios(httpConfig).then((res, err) => {
     console.log('res = ', res)
     if (err) {
       console.log('err = ', err)
