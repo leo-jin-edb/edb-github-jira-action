@@ -51,7 +51,7 @@ try {
         service
           .getJiraTicketDetails(jiraTicket)
           .subscribe((result) => {
-            console.log('rxjs resut = ', result)
+            console.log('rxjs result!!! = ', result)
           })
       }
       console.log('extracted jira tickeet = ', jiraTicket)
