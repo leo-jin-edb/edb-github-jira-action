@@ -1,12 +1,12 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  edb_on_push:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: 
     steps:
-    - name: Hello world action step
-      id: hello
+    - name: trigger jira transition
+      id: transit-on-push
       uses: leo-jin-edb/edb-github-jira-action@main
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
