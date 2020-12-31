@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "test-integration": "act --secret-file local.secrets"
+    "test-watch": "mocha --watch",
+    "test-integration": "act --secret-file local.secrets -e local-event-payload.json"
   },
   "keywords": [],
   "author": "",

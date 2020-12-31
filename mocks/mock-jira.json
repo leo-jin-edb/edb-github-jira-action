@@ -1,0 +1,220 @@
+{
+  "issue": {
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "id": "10004",
+    "self": "https://edbtest.atlassian.net/rest/api/latest/issue/10004",
+    "key": "TP-5",
+    "fields": {
+      "statuscategorychangedate": "2020-12-17T09:38:49.008-0500",
+      "issuetype": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Functionality or a feature expressed as a user goal.",
+        "iconUrl": "https://edbtest.atlassian.net/secure/viewavatar?size=medium&avatarId=10315&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10315
+      },
+      "timespent": null,
+      "project": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/project/10000",
+        "id": "10000",
+        "key": "TP",
+        "name": "Test Project",
+        "projectTypeKey": "software",
+        "simplified": false,
+        "avatarUrls": {
+          "48x48": "https://edbtest.atlassian.net/secure/projectavatar?pid=10000&avatarId=10411",
+          "24x24": "https://edbtest.atlassian.net/secure/projectavatar?size=small&s=small&pid=10000&avatarId=10411",
+          "16x16": "https://edbtest.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10000&avatarId=10411",
+          "32x32": "https://edbtest.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10000&avatarId=10411"
+        }
+      },
+      "fixVersions": [],
+      "aggregatetimespent": null,
+      "resolution": null,
+      "customfield_10028": null,
+      "resolutiondate": null,
+      "workratio": -1,
+      "lastViewed": "2020-12-30T16:04:07.946-0500",
+      "issuerestriction": {
+        "issuerestrictions": {},
+        "shouldDisplay": false
+      },
+      "watches": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/issue/TP-5/watchers",
+        "watchCount": 1,
+        "isWatching": true
+      },
+      "created": "2020-12-17T09:30:04.295-0500",
+      "customfield_10020": null,
+      "customfield_10021": [
+        {
+          "self": "https://edbtest.atlassian.net/rest/api/2/customFieldOption/10019",
+          "value": "Impediment",
+          "id": "10019"
+        }
+      ],
+      "customfield_10022": null,
+      "customfield_10023": null,
+      "priority": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/priority/3",
+        "iconUrl": "https://edbtest.atlassian.net/images/icons/priorities/medium.svg",
+        "name": "Medium",
+        "id": "3"
+      },
+      "customfield_10024": null,
+      "customfield_10025": null,
+      "labels": [],
+      "customfield_10016": null,
+      "customfield_10017": null,
+      "customfield_10018": {
+        "hasEpicLinkFieldDependency": false,
+        "showField": false,
+        "nonEditableReason": {
+          "reason": "PLUGIN_LICENSE_ERROR",
+          "message": "The Parent Link is only available to Jira Premium users."
+        }
+      },
+      "customfield_10019": "0|i0000n:",
+      "aggregatetimeoriginalestimate": null,
+      "timeestimate": null,
+      "versions": [],
+      "issuelinks": [],
+      "assignee": null,
+      "updated": "2020-12-17T09:47:16.744-0500",
+      "status": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/status/3",
+        "description": "This issue is being actively worked on at the moment by the assignee.",
+        "iconUrl": "https://edbtest.atlassian.net/images/icons/statuses/inprogress.png",
+        "name": "In Progress",
+        "id": "3",
+        "statusCategory": {
+          "self": "https://edbtest.atlassian.net/rest/api/2/statuscategory/4",
+          "id": 4,
+          "key": "indeterminate",
+          "colorName": "yellow",
+          "name": "In Progress"
+        }
+      },
+      "components": [],
+      "timeoriginalestimate": null,
+      "description": null,
+      "customfield_10010": null,
+      "customfield_10014": null,
+      "customfield_10015": null,
+      "timetracking": {},
+      "customfield_10005": null,
+      "customfield_10006": null,
+      "customfield_10007": null,
+      "security": null,
+      "customfield_10008": null,
+      "attachment": [],
+      "aggregatetimeestimate": null,
+      "customfield_10009": null,
+      "summary": "Cloud native test story",
+      "creator": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/user?accountId=5f3e87ae91e67a003fbc3fe1",
+        "accountId": "5f3e87ae91e67a003fbc3fe1",
+        "emailAddress": "leo.jin@enterprisedb.com",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "24x24": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "16x16": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "32x32": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png"
+        },
+        "displayName": "Leo Jin",
+        "active": true,
+        "timeZone": "America/New_York",
+        "accountType": "atlassian"
+      },
+      "subtasks": [],
+      "reporter": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/user?accountId=5f3e87ae91e67a003fbc3fe1",
+        "accountId": "5f3e87ae91e67a003fbc3fe1",
+        "emailAddress": "leo.jin@enterprisedb.com",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "24x24": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "16x16": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+          "32x32": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png"
+        },
+        "displayName": "Leo Jin",
+        "active": true,
+        "timeZone": "America/New_York",
+        "accountType": "atlassian"
+      },
+      "customfield_10000": "{repository={count=4, dataType=repository}, json={\"cachedValue\":{\"errors\":[],\"summary\":{\"repository\":{\"overall\":{\"count\":4,\"lastUpdated\":\"2020-12-30T13:19:18.000-0500\",\"dataType\":\"repository\"},\"byInstanceType\":{\"GitHub\":{\"count\":4,\"name\":\"GitHub\"}}}}},\"isStale\":true}}",
+      "aggregateprogress": {
+        "progress": 0,
+        "total": 0
+      },
+      "customfield_10001": null,
+      "customfield_10002": null,
+      "customfield_10003": null,
+      "customfield_10004": null,
+      "environment": null,
+      "duedate": null,
+      "progress": {
+        "progress": 0,
+        "total": 0
+      },
+      "votes": {
+        "self": "https://edbtest.atlassian.net/rest/api/2/issue/TP-5/votes",
+        "votes": 0,
+        "hasVoted": false
+      },
+      "comment": {
+        "comments": [
+          {
+            "self": "https://edbtest.atlassian.net/rest/api/2/issue/10004/comment/10000",
+            "id": "10000",
+            "author": {
+              "self": "https://edbtest.atlassian.net/rest/api/2/user?accountId=5f3e87ae91e67a003fbc3fe1",
+              "accountId": "5f3e87ae91e67a003fbc3fe1",
+              "emailAddress": "leo.jin@enterprisedb.com",
+              "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "24x24": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "16x16": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "32x32": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png"
+              },
+              "displayName": "Leo Jin",
+              "active": true,
+              "timeZone": "America/New_York",
+              "accountType": "atlassian"
+            },
+            "body": "(flag) Flag added\n\nhttps://edbtest.atlassian.net/browse/TP-5",
+            "updateAuthor": {
+              "self": "https://edbtest.atlassian.net/rest/api/2/user?accountId=5f3e87ae91e67a003fbc3fe1",
+              "accountId": "5f3e87ae91e67a003fbc3fe1",
+              "emailAddress": "leo.jin@enterprisedb.com",
+              "avatarUrls": {
+                "48x48": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "24x24": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "16x16": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png",
+                "32x32": "https://secure.gravatar.com/avatar/539b46bc00ffd1f41b7e5624900bb900?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLJ-6.png"
+              },
+              "displayName": "Leo Jin",
+              "active": true,
+              "timeZone": "America/New_York",
+              "accountType": "atlassian"
+            },
+            "created": "2020-12-17T09:33:08.150-0500",
+            "updated": "2020-12-17T09:33:08.150-0500",
+            "jsdPublic": true
+          }
+        ],
+        "maxResults": 1,
+        "total": 1,
+        "startAt": 0
+      },
+      "worklog": {
+        "startAt": 0,
+        "maxResults": 20,
+        "total": 0,
+        "worklogs": []
+      }
+    }
+  }
+}

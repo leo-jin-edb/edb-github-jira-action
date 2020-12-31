@@ -4,7 +4,6 @@ const axios = require('axios')
 const helper = require('./helper')
 const service = require('./service')
 const { catchError } = require('rxjs/operators')
-const fs = require('fs')
 const { of } = require('rxjs')
 try {
   // `who-to-greet` input defined in action metadata file
@@ -49,10 +48,11 @@ try {
       const jiraTicket = helper.extractJiraKey(commitMssg)
       if (jiraTicket) {
         // get ticket info
-        service.getJiraTicketDetails(jiraTicket).subscribe((result) => {
-          console.log('rxjs resut = ', result)
-          fs.writeFileSync('mock-jira-responses.json', JSON.stringify(result, null, 2))
-        })
+        service
+          .getJiraTicketDetails(jiraTicket)
+          .subscribe((result) => {
+            console.log('rxjs resut = ', result)
+          })
       }
       console.log('extracted jira tickeet = ', jiraTicket)
     }

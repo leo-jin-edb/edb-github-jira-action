@@ -1,5 +1,6 @@
 const { expect } = require('chai')
 const helper = require('./helper')
+const mockJiraRes = require('./mocks/mock-jira.json');
 
 describe(`Test helpers`, function () {
   let commitMssg
@@ -17,5 +18,10 @@ describe(`Test helpers`, function () {
     commitMssg = `ommit new feature jii-008`
     const result = helper.extractJiraKey(commitMssg)
     expect(result).to.equal('jii-008')
+  })
+
+  it.only(`Should parse status properly from jira response`, function() {
+    const result = helper.parseJiraIssueRes(mockJiraRes.issue);
+    expect(result.status.name).to.equal('In Progress');
   })
 })
