@@ -1,5 +1,5 @@
 const { default: axios } = require('axios')
-const { extractJiraKey } = require('./helper')
+const { extractJiraKey, parseJiraIssueRes } = require('./helper')
 const { from, of } = require('rxjs')
 const { map, catchError } = require('rxjs/operators')
 
@@ -32,6 +32,7 @@ const processCommit = (gitCommit) => {
     const jiraKey = extractJiraKey(message)
     if (jiraKey) {
       // get jira status
+      
       // move the ticket if status is in ToDo
     }
   }
@@ -41,6 +42,7 @@ const getJiraTicketDetails = (ticketId) => {
   console.log(`involking getJiraDetails with ticket id ${ticketId}`)
   return from(axios.get(`${jiraUrl}/issue/${ticketId}`)).pipe(
     map((res) => res.data),
+    map((data) => parseJiraIssueRes(data)),
     catchError((e) => of(e))
   )
 }

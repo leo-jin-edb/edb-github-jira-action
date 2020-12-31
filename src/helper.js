@@ -5,7 +5,6 @@ function extractJiraKey(commitMssg) {
 }
 
 function parseJiraIssueRes(issueRes) {
-  console.log(issueRes)
   const { fields } = issueRes
   return {
     status: fields.status

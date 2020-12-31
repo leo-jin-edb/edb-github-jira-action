@@ -1,6 +1,6 @@
 const { expect } = require('chai')
-const helper = require('./helper')
-const mockJiraRes = require('./mocks/mock-jira.json');
+const helper = require('../src/helper')
+const mockJiraRes = require('../mocks/mock-jira.json');
 
 describe(`Test helpers`, function () {
   let commitMssg
