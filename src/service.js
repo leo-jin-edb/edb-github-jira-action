@@ -1,7 +1,7 @@
 const { default: axios } = require('axios')
 const { extractJiraKey, parseJiraIssueRes } = require('./helper')
 const { from, of } = require('rxjs')
-const { map, catchError } = require('rxjs/operators')
+const { map, catchError, switchMap } = require('rxjs/operators')
 
 // global vars
 const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest`
@@ -22,6 +22,7 @@ axios.interceptors.request.use(
     Promise.reject(err)
   }
 )
+
 /**
  *
  * @param {object} gitCommit (A git commit object from github context)
@@ -32,17 +33,34 @@ const processCommit = (gitCommit) => {
     const jiraKey = extractJiraKey(message)
     if (jiraKey) {
       // get jira status
-      
       // move the ticket if status is in ToDo
     }
   }
 }
 
-const getJiraTicketDetails = (ticketId) => {
-  console.log(`involking getJiraDetails with ticket id ${ticketId}`)
-  return from(axios.get(`${jiraUrl}/issue/${ticketId}`)).pipe(
+const getJiraTicketDevInfo = (ticketId) => {
+  const url = `${jiraUrl}/rest/dev-status/latest/issue/detail?issueId=${ticketId}&applicationType=GitHub&dataType=repository`
+  return from(axios.get(url)).pipe(
+    map((res) => res.data),
+    catchError((e) => of(e))
+  )
+}
+
+const getJiraTicketDetails = (ticketKey) => {
+  console.log(`involking getJiraDetails with ticket id ${ticketKey}`)
+  return from(axios.get(`${jiraUrl}/issue/${ticketKey}`)).pipe(
     map((res) => res.data),
     map((data) => parseJiraIssueRes(data)),
+    switchMap((result) => {
+      const { id, status } = result;
+      return getJiraTicketDevInfo(id).pipe(
+        map(devInfo => {
+          console.log('devInfo = ', devInfo);
+          return result;
+        })
+      )
+
+    }),
     catchError((e) => of(e))
   )
 }
