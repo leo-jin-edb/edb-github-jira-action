@@ -39,7 +39,7 @@ const processCommit = (gitCommit) => {
 }
 
 const getJiraTicketDevInfo = (ticketId) => {
-  const url = `${jiraUrl}/rest/dev-status/latest/issue/detail?issueId=${ticketId}&applicationType=GitHub&dataType=repository`
+  const url = `${process.env['JIRA_BASE_URL']}/rest/dev-status/latest/issue/detail?issueId=${ticketId}&applicationType=GitHub&dataType=repository`
   return from(axios.get(url)).pipe(
     map((res) => res.data),
     catchError((e) => of(e))
