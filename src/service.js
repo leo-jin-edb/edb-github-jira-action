@@ -104,6 +104,7 @@ const getEligibleTransitions = (ticketKey) => {
  */
 const processCommit = (gitCommit) => {
   const { message } = gitCommit
+  console.log('gitCommit = ', gitCommit);
   if (message) {
     const jiraKey = extractJiraKey(message)
     if (jiraKey) {
@@ -138,7 +139,7 @@ const processCommit = (gitCommit) => {
       // move the ticket if status is in ToDo
     }
   }
-  return null
+  return of(null)
 }
 
 init()

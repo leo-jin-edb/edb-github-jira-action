@@ -42,11 +42,11 @@ try {
   const { commits } = github.context.payload
   console.log('commits here!!!! = ', commits)
   if (commits) {
-    const commitMssg = commits[0].message
-    if (commitMssg) {
-      console.log('commit message here = ', commitMssg)
-      service.processCommit(commitMssg).subscribe(results => {
-        console.log('results = ', results);
+    const commitPayload = commits[0]
+    if (commitPayload) {
+      console.log('commit message here = ', commitPayload)
+      service.processCommit(commitPayload).subscribe((results) => {
+        console.log('results = ', results)
       })
       // const jiraTicket = helper.extractJiraKey(commitMssg)
       // if (jiraTicket) {
