@@ -20,7 +20,6 @@ const _init = () => {
     apiVersion: 'latest',
     strictSSL: true,
   }
-  // console.log('jira Config = ', JSON.stringify(jiraConfig, null, 2))
   jiraApi = new JiraClient(jiraConfig)
 }
 
