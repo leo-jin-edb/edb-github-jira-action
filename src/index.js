@@ -45,16 +45,19 @@ try {
     const commitMssg = commits[0].message
     if (commitMssg) {
       console.log('commit message here = ', commitMssg)
-      const jiraTicket = helper.extractJiraKey(commitMssg)
-      if (jiraTicket) {
-        // get ticket info
-        service
-          .getJiraTicketDetails(jiraTicket)
-          .subscribe((result) => {
-            console.log('rxjs result!!! = ', result)
-          })
-      }
-      console.log('extracted jira tickeet = ', jiraTicket)
+      service.processCommit(commitMssg).subscribe(results => {
+        console.log('results = ', results);
+      })
+      // const jiraTicket = helper.extractJiraKey(commitMssg)
+      // if (jiraTicket) {
+      //   // get ticket info
+      //   service
+      //     .getJiraTicketDetails(jiraTicket)
+      //     .subscribe((result) => {
+      //       console.log('rxjs result!!! = ', result)
+      //     })
+      // }
+      // console.log('extracted jira tickeet = ', jiraTicket)
     }
   }
 } catch (error) {
