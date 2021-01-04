@@ -20,8 +20,82 @@ const init = () => {
     apiVersion: 'latest',
     strictSSL: true,
   }
-  console.log('jira Config = ', JSON.stringify(jiraConfig, null, 2))
+  // console.log('jira Config = ', JSON.stringify(jiraConfig, null, 2))
   jiraApi = new JiraClient(jiraConfig)
+}
+
+// const getJiraTicketDevInfo = (ticketId) => {
+//   const pr$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'pullrequest'))
+//   const commits$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'repository'))
+//   return forkJoin([pr$, commits$]).pipe(
+//     map(([prs, commits]) => {
+//       // transform array results into object
+//       return {
+//         prs,
+//         commits,
+//       }
+//     }),
+//     catchError((e) => of(e))
+//   )
+// }
+
+const getJiraTicketDevSummary = (ticketId) => {
+  return from(jiraApi.getDevStatusSummary(ticketId)).pipe(
+    map((data) => {
+      const { summary } = data
+      const { pullrequest, repository } = summary
+      return {
+        totalPrs: pullrequest.overall.count,
+        totalCommits: repository.overall.count,
+      }
+    })
+  )
+}
+
+const getJiraTicketDetails = (ticketKey) => {
+  console.log(`invoking getJiraDetails with ticket id ${ticketKey}`)
+  return from(jiraApi.findIssue(ticketKey)).pipe(
+    // map((res) => res.data),
+    map((data) => parseJiraIssueRes(data)),
+    switchMap((result) => {
+      const { id, status } = result
+      return getJiraTicketDevSummary(id).pipe(
+        map((devInfo) => {
+          // console.log('devInfo = ', devInfo)
+          return { ...result, devInfo }
+        })
+      )
+    }),
+    catchError((e) => of(e))
+  )
+}
+
+const handleTransition = (data) => {
+  const { jiraId, jiraKey, jiraStatus, totalCommits, transitions } = data
+  // if(totalCommits === 0 && jiraStatus === )
+
+  if (totalCommits === 0) {
+    // initial commit, see if has dev start transition available
+    const trans = transitions.find((tr) => tr.name === 'Dev Start')
+    if (trans) {
+      // execute transition
+      console.log(`commits = ${totalCommits} and trans ${trans.name}, we transition the issue`)
+      jiraApi.transitionIssue(jiraKey, {
+        transition: {
+          id: trans.id,
+        },
+      })
+    }
+  }
+  return data
+}
+
+const getEligibleTransitions = (ticketKey) => {
+  return from(jiraApi.listTransitions(ticketKey)).pipe(
+    map((data) => {
+      return data.transitions
+    })
+  )
 }
 
 /**
@@ -34,46 +108,42 @@ const processCommit = (gitCommit) => {
     const jiraKey = extractJiraKey(message)
     if (jiraKey) {
       // get jira status
+      return getJiraTicketDetails(jiraKey).pipe(
+        map((data) => {
+          const { id, status, devInfo } = data
+          const { totalPrs, totalCommits } = devInfo
+          return {
+            jiraId: id,
+            jiraKey,
+            jiraStatus: {
+              id: status.id,
+              name: status.name,
+            },
+            totalCommits,
+            totalPrs,
+          }
+        }),
+        switchMap((data) => {
+          const { jiraKey } = data
+          return getEligibleTransitions(jiraKey).pipe(
+            map((transitions) => {
+              return { ...data, transitions }
+            })
+          )
+        }),
+        map((data) => {
+          return handleTransition(data)
+        })
+      )
       // move the ticket if status is in ToDo
     }
   }
-}
-
-const getJiraTicketDevInfo = (ticketId) => {
-  const pr$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'pullrequest'))
-  const commits$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'repository'))
-  return forkJoin([pr$, commits$]).pipe(
-    map(([prs, commits]) => {
-      // transform array results into object
-      return {
-        prs,
-        commits,
-      }
-    }),
-    catchError((e) => of(e))
-  )
-}
-
-const getJiraTicketDetails = (ticketKey) => {
-  console.log(`invoking getJiraDetails with ticket id ${ticketKey}`)
-  return from(jiraApi.findIssue(ticketKey)).pipe(
-    // map((res) => res.data),
-    map((data) => parseJiraIssueRes(data)),
-    switchMap((result) => {
-      const { id, status } = result
-      return getJiraTicketDevInfo(id).pipe(
-        map((devInfo) => {
-          // console.log('devInfo = ', devInfo)
-          return { ...result, devInfo }
-        })
-      )
-    }),
-    catchError((e) => of(e))
-  )
+  return null
 }
 
 init()
 
 module.exports = {
+  processCommit,
   getJiraTicketDetails,
 }
