@@ -19,3 +19,5 @@ The time we greeted you.
 uses: actions/edb-github-jira-action@v1
 with:
   who-to-greet: 'Leo Jin' 
+
+  JIRA_BASE_URL=https://edbtest.atlassian.net JIRA_API_TOKEN=0zy6fNhvFPhm0zXFjCxb4685 node src/scratchpad.js

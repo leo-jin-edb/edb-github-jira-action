@@ -215,6 +215,246 @@
         "total": 0,
         "worklogs": []
       }
+    },
+    "devInfo": {
+      "prs": {
+        "errors": [],
+        "detail": [
+          {
+            "branches": [
+              {
+                "name": "feature/tp-5",
+                "url": "https://github.com/leo-jin-edb/jira-integraion/tree/feature/tp-5",
+                "createPullRequestUrl": "https://github.com/leo-jin-edb/jira-integraion/pull/new/feature/tp-5",
+                "repository": {
+                  "name": "jira-integraion",
+                  "url": "https://github.com/leo-jin-edb/jira-integraion",
+                  "branches": []
+                },
+                "lastCommit": {
+                  "id": "8bb00c300e2784b3fe52fbe5b9d0987b6a4419e8",
+                  "displayId": "8bb00c",
+                  "authorTimestamp": "2020-12-17T14:47:14.000+0000",
+                  "url": "https://github.com/leo-jin-edb/jira-integraion/commit/8bb00c300e2784b3fe52fbe5b9d0987b6a4419e8",
+                  "author": {
+                    "name": "leo-jin-edb"
+                  },
+                  "fileCount": 0,
+                  "merge": false,
+                  "message": "n/a",
+                  "files": []
+                }
+              }
+            ],
+            "pullRequests": [
+              {
+                "author": {
+                  "name": "leo-jin-edb",
+                  "avatar": "https://avatars2.githubusercontent.com/u/72026186?v=4",
+                  "url": "https://github.com/leo-jin-edb"
+                },
+                "id": "#6",
+                "name": "TP-5 just a test for github integration",
+                "commentCount": 0,
+                "source": {
+                  "branch": "feature/tp-5",
+                  "url": "https://github.com/leo-jin-edb/jira-integraion/tree/feature/tp-5"
+                },
+                "destination": {
+                  "branch": "https://github.com/leo-jin-edb/jira-integraion/tree/main"
+                },
+                "reviewers": [],
+                "status": "MERGED",
+                "url": "https://github.com/leo-jin-edb/jira-integraion/pull/6",
+                "lastUpdate": "2020-12-17T14:47:14.000+0000"
+              }
+            ],
+            "repositories": [],
+            "_instance": {
+              "name": "GitHub",
+              "baseUrl": "https://github.com",
+              "type": "GitHub",
+              "id": "com.github.integration.production",
+              "typeName": "GitHub",
+              "singleInstance": true
+            }
+          }
+        ]
+      },
+      "commits": {
+        "errors": [],
+        "detail": [
+          {
+            "repositories": [
+              {
+                "name": "jira-integraion",
+                "url": "https://github.com/leo-jin-edb/jira-integraion",
+                "commits": [
+                  {
+                    "id": "e6b78daea761017cf2edf2590b14a06b026bb0e7",
+                    "displayId": "e6b78d",
+                    "authorTimestamp": "2020-12-17T14:47:13.000+0000",
+                    "url": "https://github.com/leo-jin-edb/jira-integraion/commit/e6b78daea761017cf2edf2590b14a06b026bb0e7",
+                    "author": {
+                      "name": "leo-jin-edb",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 1,
+                    "merge": false,
+                    "message": "Merge pull request #6 from leo-jin-edb/feature/tp-5\n\nTP-5 just a test for github integration",
+                    "files": [
+                      {
+                        "path": "README.md",
+                        "url": "https://github.com/leo-jin-edb/jira-integraion/blob/e6b78daea761017cf2edf2590b14a06b026bb0e7/README.md",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 2,
+                        "linesRemoved": 0
+                      }
+                    ]
+                  },
+                  {
+                    "id": "12c2798e1fb4d7fb671e2d68ce9e55be4cdba032",
+                    "displayId": "12c279",
+                    "authorTimestamp": "2020-12-17T14:37:51.000+0000",
+                    "url": "https://github.com/leo-jin-edb/jira-integraion/commit/12c2798e1fb4d7fb671e2d68ce9e55be4cdba032",
+                    "author": {
+                      "name": "leo.jin",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 1,
+                    "merge": false,
+                    "message": "TP-5 just a test for github integration",
+                    "files": [
+                      {
+                        "path": "README.md",
+                        "url": "https://github.com/leo-jin-edb/jira-integraion/blob/12c2798e1fb4d7fb671e2d68ce9e55be4cdba032/README.md",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 5,
+                        "linesRemoved": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "edb-github-jira-action",
+                "url": "https://github.com/leo-jin-edb/edb-github-jira-action",
+                "commits": [
+                  {
+                    "id": "a06fcbb76c39b25eb2cce25455a08c5f00370acb",
+                    "displayId": "a06fcb",
+                    "authorTimestamp": "2020-12-31T16:39:38.000+0000",
+                    "url": "https://github.com/leo-jin-edb/edb-github-jira-action/commit/a06fcbb76c39b25eb2cce25455a08c5f00370acb",
+                    "author": {
+                      "name": "leo.jin",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 1,
+                    "merge": false,
+                    "message": "TP-5 test again",
+                    "files": [
+                      {
+                        "path": "index.js",
+                        "url": "https://github.com/leo-jin-edb/edb-github-jira-action/blob/a06fcbb76c39b25eb2cce25455a08c5f00370acb/index.js",
+                        "changeType": "ADDED",
+                        "linesAdded": 1,
+                        "linesRemoved": 0
+                      }
+                    ]
+                  },
+                  {
+                    "id": "f9053d8fbe2f2e0f06753b09c041ad6c78e4361b",
+                    "displayId": "f9053d",
+                    "authorTimestamp": "2020-12-31T16:38:17.000+0000",
+                    "url": "https://github.com/leo-jin-edb/edb-github-jira-action/commit/f9053d8fbe2f2e0f06753b09c041ad6c78e4361b",
+                    "author": {
+                      "name": "leo.jin",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 1,
+                    "merge": false,
+                    "message": "TP-5 test",
+                    "files": [
+                      {
+                        "path": "src/index.js",
+                        "url": "https://github.com/leo-jin-edb/edb-github-jira-action/blob/f9053d8fbe2f2e0f06753b09c041ad6c78e4361b/src/index.js",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 1,
+                        "linesRemoved": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "f68eb7c02677b55d6f16869a72bcfe639f9e74de",
+                    "displayId": "f68eb7",
+                    "authorTimestamp": "2020-12-30T18:19:18.000+0000",
+                    "url": "https://github.com/leo-jin-edb/edb-github-jira-action/commit/f68eb7c02677b55d6f16869a72bcfe639f9e74de",
+                    "author": {
+                      "name": "leo.jin",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 2,
+                    "merge": false,
+                    "message": "TP-5 again",
+                    "files": [
+                      {
+                        "path": "index.js",
+                        "url": "https://github.com/leo-jin-edb/edb-github-jira-action/blob/f68eb7c02677b55d6f16869a72bcfe639f9e74de/index.js",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 0,
+                        "linesRemoved": 1
+                      },
+                      {
+                        "path": "service.js",
+                        "url": "https://github.com/leo-jin-edb/edb-github-jira-action/blob/f68eb7c02677b55d6f16869a72bcfe639f9e74de/service.js",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 11,
+                        "linesRemoved": 7
+                      }
+                    ]
+                  },
+                  {
+                    "id": "613193b558fb7d99418240347571b3737c33ba88",
+                    "displayId": "613193",
+                    "authorTimestamp": "2020-12-30T18:16:55.000+0000",
+                    "url": "https://github.com/leo-jin-edb/edb-github-jira-action/commit/613193b558fb7d99418240347571b3737c33ba88",
+                    "author": {
+                      "name": "leo.jin",
+                      "avatar": "https://github.com/leo-jin-edb.png",
+                      "url": "https://github.com/leo-jin-edb"
+                    },
+                    "fileCount": 1,
+                    "merge": false,
+                    "message": "TP-5 testing",
+                    "files": [
+                      {
+                        "path": "index.js",
+                        "url": "https://github.com/leo-jin-edb/edb-github-jira-action/blob/613193b558fb7d99418240347571b3737c33ba88/index.js",
+                        "changeType": "MODIFIED",
+                        "linesAdded": 1,
+                        "linesRemoved": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "_instance": {
+              "name": "GitHub",
+              "baseUrl": "https://github.com",
+              "type": "GitHub",
+              "id": "com.github.integration.production",
+              "typeName": "GitHub",
+              "singleInstance": true
+            }
+          }
+        ]
+      }
     }
   }
 }

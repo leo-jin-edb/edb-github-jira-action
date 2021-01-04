@@ -1,27 +1,28 @@
 const { default: axios } = require('axios')
 const { extractJiraKey, parseJiraIssueRes } = require('./helper')
-const { from, of } = require('rxjs')
+const { from, of, forkJoin } = require('rxjs')
 const { map, catchError, switchMap } = require('rxjs/operators')
+const JiraClient = require('jira-client')
 
-// global vars
-const jiraUrl = `${process.env['JIRA_BASE_URL']}/rest/api/latest`
-const jiraApiToken = process.env['JIRA_API_TOKEN']
+let jiraApi
 
-// setup auth interceptor
-axios.interceptors.request.use(
-  (config) => {
-    return {
-      ...config,
-      auth: {
-        username: 'leo.jin@enterprisedb.com',
-        password: jiraApiToken,
-      },
-    }
-  },
-  (err) => {
-    Promise.reject(err)
+const init = () => {
+  // global vars
+  const jiraApiToken = process.env['JIRA_API_TOKEN']
+  const jiraApiInfo = process.env['JIRA_BASE_URL'].split(':') // move this utility func into helpe.js
+
+  // initialized jira client api
+  const jiraConfig = {
+    protocol: jiraApiInfo[0],
+    host: jiraApiInfo[1].substring(2),
+    username: 'leo.jin@enterprisedb.com',
+    password: jiraApiToken,
+    apiVersion: 'latest',
+    strictSSL: true,
   }
-)
+  console.log('jira Config = ', JSON.stringify(jiraConfig, null, 2))
+  jiraApi = new JiraClient(jiraConfig)
+}
 
 /**
  *
@@ -39,31 +40,39 @@ const processCommit = (gitCommit) => {
 }
 
 const getJiraTicketDevInfo = (ticketId) => {
-  const url = `${process.env['JIRA_BASE_URL']}/rest/dev-status/latest/issue/detail?issueId=${ticketId}&applicationType=GitHub&dataType=repository`
-  return from(axios.get(url)).pipe(
-    map((res) => res.data),
+  const pr$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'pullrequest'))
+  const commits$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'repository'))
+  return forkJoin([pr$, commits$]).pipe(
+    map(([prs, commits]) => {
+      // transform array results into object
+      return {
+        prs,
+        commits,
+      }
+    }),
     catchError((e) => of(e))
   )
 }
 
 const getJiraTicketDetails = (ticketKey) => {
-  console.log(`involking getJiraDetails with ticket id ${ticketKey}`)
-  return from(axios.get(`${jiraUrl}/issue/${ticketKey}`)).pipe(
-    map((res) => res.data),
+  console.log(`invoking getJiraDetails with ticket id ${ticketKey}`)
+  return from(jiraApi.findIssue(ticketKey)).pipe(
+    // map((res) => res.data),
     map((data) => parseJiraIssueRes(data)),
     switchMap((result) => {
-      const { id, status } = result;
+      const { id, status } = result
       return getJiraTicketDevInfo(id).pipe(
-        map(devInfo => {
-          console.log('devInfo = ', devInfo);
-          return result;
+        map((devInfo) => {
+          // console.log('devInfo = ', devInfo)
+          return { ...result, devInfo }
         })
       )
-
     }),
     catchError((e) => of(e))
   )
 }
+
+init()
 
 module.exports = {
   getJiraTicketDetails,
