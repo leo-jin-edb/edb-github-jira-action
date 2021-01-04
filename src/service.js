@@ -34,7 +34,7 @@ const _init = () => {
 //         prs,
 //         commits,
 //       }
-//     }), 
+//     }),
 //     catchError((e) => of(e))
 //   )
 // }
@@ -72,28 +72,28 @@ const _getJiraTicketDetails = (ticketKey) => {
 
 /**
  * Handles triggering jira transitions based on a fixed set of logic
- * 
- * @param {*} data 
+ *
+ * @param {*} data
  */
 const _handleTransition = (data) => {
   const { jiraKey, totalCommits, transitions } = data
   // if(totalCommits === 0 && jiraStatus === )
 
-  if (totalCommits === 0) {
-    // initial commit, see if has dev start transition available
-    const trans = transitions.find((tr) => tr.name === 'Dev Start')
-    // trigger transition if it is initial commit against the ticket and 
-    // it has 'Dev start" available as a valid transition
-    if (trans) {
-      // execute transition
-      console.log(`commits = ${totalCommits} and trans ${trans.name}, we are transitioning the issue`)
-      jiraApi.transitionIssue(jiraKey, {
-        transition: {
-          id: trans.id,
-        },
-      })
-    }
+  // if (totalCommits === 0) {
+  // initial commit, see if has dev start transition available
+  const trans = transitions.find((tr) => tr.name === 'Dev Start')
+  // trigger transition if it is initial commit against the ticket and
+  // it has 'Dev start" available as a valid transition
+  if (trans) {
+    // execute transition
+    console.log(`commits = ${totalCommits} and trans ${trans.name}, we are transitioning the issue`)
+    jiraApi.transitionIssue(jiraKey, {
+      transition: {
+        id: trans.id,
+      },
+    })
   }
+  // }
   return data
 }
 
