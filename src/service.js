@@ -77,7 +77,6 @@ const _getJiraTicketDetails = (ticketKey) => {
  */
 const _handleTransition = (data) => {
   const { jiraKey, totalCommits, transitions } = data
-  // if(totalCommits === 0 && jiraStatus === )
 
   // if (totalCommits === 0) {
   // initial commit, see if has dev start transition available
