@@ -14,7 +14,7 @@ try {
   if (commits) {
     const commitPayload = commits[0]
     if (commitPayload) {
-      console.log('commit message here = ', commitPayload)
+      console.log('commit message here == ', commitPayload)
       service
         .processCommit(commitPayload)
         .pipe(catchError((e) => of(e)))
