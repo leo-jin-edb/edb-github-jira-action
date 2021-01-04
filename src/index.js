@@ -11,7 +11,6 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`)
   const { commits } = github.context.payload
-  console.log('commits here!!!! = ', commits)
   if (commits) {
     const commitPayload = commits[0]
     if (commitPayload) {
