@@ -11,6 +11,10 @@ const _init = () => {
   const jiraApiToken = process.env['JIRA_API_TOKEN']
   const jiraApiInfo = process.env['JIRA_BASE_URL'].split(':') // move this utility func into helpe.js
 
+  if (!jiraApiToken || !jiraApiInfo) {
+    console.log('Cannot locate jira_base_url and jira_api_token variables, please ensure they are added to secrets')
+    exit(1)
+  }
   // initialized jira client api
   const jiraConfig = {
     protocol: jiraApiInfo[0],
