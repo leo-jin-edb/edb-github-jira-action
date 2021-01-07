@@ -13,7 +13,7 @@ const _init = () => {
 
   if (!jiraApiToken || !jiraApiInfo) {
     console.log('Cannot locate jira_base_url and jira_api_token variables, please ensure they are added to secrets')
-    exit(1)
+    process.exit(1)
   }
   // initialized jira client api
   const jiraConfig = {
