@@ -38,12 +38,15 @@ try {
   }
 
   if (prAction && (prAction === 'review_requested' || prAction === 'ready_for_review')) {
-    service
+    if(pull_request.title) {
+      service
       .processPRReivew(pull_request.title)
       .pipe(catchError((e) => of(e)))
       .subscribe((results) => {
         console.log(`processed PR '${prAction}' event successfully result = `, results)
       })
+    }
+    
   }
 } catch (error) {
   core.setFailed(error.message)
