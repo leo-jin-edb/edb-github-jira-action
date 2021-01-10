@@ -1,6 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const service = require('./service')
+const helper = require('./helper')
 const { catchError } = require('rxjs/operators')
 const { of } = require('rxjs')
 try {
@@ -13,6 +14,10 @@ try {
   const eventName = github.context.eventName
   console.log('Event name here = ', eventName)
   console.log(`The event payload: ${payload}`)
+
+  const data = helper.parseGithubEventContext(github)
+  console.log('data here = ', data)
+  
   const { commits, ref: branchName, ref_type, action: prAction, pull_request } = github.context.payload
   if (commits) {
     const commitPayload = commits[0]

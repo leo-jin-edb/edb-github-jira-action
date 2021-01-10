@@ -1,19 +1,81 @@
+function _parsePRPayload(payload) {
+  const { action, pull_request } = payload
+  const { title: pr_title, head: sourceBranch } = pull_request
+  const { ref: sourceBranchName, label: sourceBranchLabel } = sourceBranch
+  return {
+    action,
+    pr_title,
+    sourceBranchName,
+    sourceBranchLabel,
+  }
+}
+
+function _parseCreatePayload(payload) {
+  const { ref: branch_name, ref_type } = payload
+  if (ref_type === 'branch') {
+    return {
+      branch_name,
+    }
+  }
+}
+
+function _parsePushCommitPayload(payload) {
+  const { commits } = payload
+  if(commits && commits.length > 0) {
+    return {
+      commit_mssg: commits[0].message
+    }
+  }
+}
+
+/**
+ * Extract jira ticket from a string using regex
+ *
+ * @param {string} commitMssg
+ */
 function extractJiraKey(commitMssg) {
   const regex = /((?<!([A-Z]{1,10})-?)[A-Z]+-\d+)/im
   const m = commitMssg.match(regex)
   return m ? m[0] : null
 }
 
+/**
+ * Parses response from jira find issue api
+ * @param {object} issueRes
+ */
 function parseJiraIssueRes(issueRes) {
   const { fields, id } = issueRes
-  // console.log('parse jira issue res called fields = ', fields); 
+  // console.log('parse jira issue res called fields = ', fields);
   return {
     id,
-    status: fields.status
+    status: fields.status,
+  }
+}
+
+function parseGithubEventContext(github) {
+  const { eventName, payload } = github.context
+  if (eventName === 'pullrequest') {
+    return {
+      eventName,
+      payload: _parsePRPayload(payload),
+    }
+  }
+  if (eventName === 'create') {
+    return {
+      eventName,
+      payload: _parseCreatePayload(payload),
+    }
+  }
+  if(eventName === 'push') {
+    return {
+      eventName,
+      payload: _parsePushCommitPayload(payload)
+    }
   }
 }
 
 module.exports = {
   extractJiraKey,
   parseJiraIssueRes,
+  parseGithubEventContext,
 }
