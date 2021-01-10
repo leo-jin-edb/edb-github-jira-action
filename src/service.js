@@ -121,7 +121,28 @@ const _updateTransition = (eventName, payload) => {
       )
     },
     push: (payload) => {
-      console.log('handle push commit')
+      // TODO: refactor out to another function
+      console.log('handle push commit') 
+      return _getEligibleTransitions(ticketKey).pipe(
+        switchMap((transitions) => {
+          console.log('transitions = ', transitions)
+          // if create branch, we'll look for dev start transition and
+          // execute if exists
+          const trans = transitions.find((tr) => tr.name === 'Dev Start')
+          console.log('dev start = ', trans)
+          if (trans) {
+            return from(
+              jiraApi.transitionIssue(ticketKey, {
+                transition: {
+                  id: trans.id,
+                },
+              })
+            )
+          }
+          return of(null)
+        }),
+        catchError((e) => e)
+      )
     },
   }
   return registry[eventName](payload)
@@ -130,7 +151,7 @@ const _updateTransition = (eventName, payload) => {
 const processGithubEvent = (github) => {
   const evt = parseGithubEventContext(github)
   const { eventName, payload } = evt
-  return _updateTransition(eventName, payload);
+  return _updateTransition(eventName, payload)
 }
 
 _init()
