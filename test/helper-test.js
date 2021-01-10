@@ -47,9 +47,7 @@ describe(`Test helpers`, function () {
       const result = helper.parseGithubEventContext(githubObj)
       expect(result.eventName).to.equal('pullrequest')
       expect(result.payload.action).to.exist
-      expect(result.payload.pr_title).to.exist
-      expect(result.payload.sourceBranchName).to.exist
-      expect(result.payload.sourceBranchLabel).to.exist
+      expect(result.payload.ticketKey).to.equal('tp-6')
     })
   })
 
@@ -73,7 +71,7 @@ describe(`Test helpers`, function () {
       const result = helper.parseGithubEventContext(githubObj)
       console.log(result)
       expect(result.eventName).to.equal('create')
-      expect(result.payload.branch_name).to.exist
+      expect(result.payload.ticketKey.toLowerCase()).to.equal('tp-7')
     })
   })
 
@@ -97,7 +95,7 @@ describe(`Test helpers`, function () {
       const result = helper.parseGithubEventContext(githubObj)
       console.log(result)
       expect(result.eventName).to.equal('push')
-      expect(result.payload.commit_mssg).to.exist
+      expect(result.payload.ticketKey.toLowerCase()).to.equal('tp-6')
     })
   })
 })

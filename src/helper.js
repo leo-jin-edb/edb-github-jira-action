@@ -2,11 +2,14 @@ function _parsePRPayload(payload) {
   const { action, pull_request } = payload
   const { title: pr_title, head: sourceBranch } = pull_request
   const { ref: sourceBranchName, label: sourceBranchLabel } = sourceBranch
+  let ticketKey = extractJiraKey(pr_title)
+  if (!pr_title) {
+    // try the branch name
+    ticketKey = extractJiraKey(sourceBranchName)
+  }
   return {
     action,
-    pr_title,
-    sourceBranchName,
-    sourceBranchLabel,
+    ticketKey
   }
 }
 
@@ -14,16 +17,16 @@ function _parseCreatePayload(payload) {
   const { ref: branch_name, ref_type } = payload
   if (ref_type === 'branch') {
     return {
-      branch_name,
+      ticketKey: extractJiraKey(branch_name),
     }
   }
 }
 
 function _parsePushCommitPayload(payload) {
   const { commits } = payload
-  if(commits && commits.length > 0) {
+  if (commits && commits.length > 0) {
     return {
-      commit_mssg: commits[0].message
+      ticketKey: extractJiraKey(commits[0].message),
     }
   }
 }
@@ -36,7 +39,7 @@ function _parsePushCommitPayload(payload) {
 function extractJiraKey(commitMssg) {
   const regex = /((?<!([A-Z]{1,10})-?)[A-Z]+-\d+)/im
   const m = commitMssg.match(regex)
-  return m ? m[0] : null
+  return m ? m[0].toLowerCase() : null
 }
 
 /**
@@ -66,10 +69,10 @@ function parseGithubEventContext(github) {
       payload: _parseCreatePayload(payload),
     }
   }
-  if(eventName === 'push') {
+  if (eventName === 'push') {
     return {
       eventName,
-      payload: _parsePushCommitPayload(payload)
+      payload: _parsePushCommitPayload(payload),
     }
   }
 }

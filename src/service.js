@@ -1,5 +1,5 @@
 const { default: axios } = require('axios')
-const { extractJiraKey, parseJiraIssueRes } = require('./helper')
+const { parseGithubEventContext, parseJiraIssueRes } = require('./helper')
 const { from, of, forkJoin } = require('rxjs')
 const { map, catchError, switchMap } = require('rxjs/operators')
 const JiraClient = require('jira-client')
@@ -58,35 +58,7 @@ const _getJiraTicketDetails = (ticketKey) => {
   )
 }
 
-/**
- * Handles triggering jira transitions based on a fixed set of logic
- *
- * @param {*} data
- */
-const _handleTransition = (data) => {
-  console.log(' in handle transition data = ', JSON.stringify(data, null, 2))
-  const { jiraKey, totalCommits, transitions } = data
-
-  // initial commit, see if has dev start transition available
-  let trans = transitions.find((tr) => tr.name === 'Dev Start')
-  if (!trans) {
-    trans = transitions.find((tr) => tr.name === 'Dev On Hold')
-  }
-  // trigger transition if it is initial commit against the ticket and
-  // it has 'Dev start" available as a valid transition
-  if (trans) {
-    // execute transition
-    // console.log(`commits = ${totalCommits} and trans ${trans.name}, we are transitioning the issue`)
-    jiraApi.transitionIssue(jiraKey, {
-      transition: {
-        id: trans.id,
-      },
-    })
-  }
-  return data
-}
-
-const getEligibleTransitions = (ticketKey) => {
+const _getEligibleTransitions = (ticketKey) => {
   return from(jiraApi.listTransitions(ticketKey)).pipe(
     map((data) => {
       return data.transitions
@@ -94,77 +66,75 @@ const getEligibleTransitions = (ticketKey) => {
   )
 }
 
-const _handleTicketTransition = (jiraKey) => {
-  return _getJiraTicketDetails(jiraKey).pipe(
-    map((data) => {
-      const { id, status, devInfo } = data
-      const { totalPrs, totalCommits } = devInfo
-      return {
-        jiraId: id,
-        jiraKey,
-        jiraStatus: {
-          id: status.id,
-          name: status.name,
-        },
-        totalCommits,
-        totalPrs,
-      }
-    }),
-    switchMap((data) => {
-      const { jiraKey } = data
-      return getEligibleTransitions(jiraKey).pipe(
-        map((transitions) => {
-          return { ...data, transitions }
-        })
+const _updateTransition = (eventName, payload) => {
+  const { ticketKey } = payload
+  const registry = {
+    pullrequest: (payload) => {
+      console.log('handle pull request')
+      const { action } = payload
+      return _getEligibleTransitions(ticketKey).pipe(
+        switchMap((transitions) => {
+          console.log('transitions = ', transitions)
+          let trans
+          if (action === 'review_requested') {
+            console.log('perform a transition')
+            trans = transitions.find((tr) => tr.name === 'Dev On Hold')
+          }
+          if (action === 'closed') {
+            trans = transitions.find((tr) => tr.name === 'Dev Done')
+          }
+          if (trans) {
+            return from(
+              jiraApi.transitionIssue(ticketKey, {
+                transition: {
+                  id: trans.id,
+                },
+              })
+            )
+          }
+          return of(null)
+        }),
+        catchError((e) => of(e))
       )
-    }),
-    map((data) => {
-      return _handleTransition(data)
-    }),
-    catchError((e) => of(e))
-  )
+    },
+    create: (payload) => {
+      console.log('handle create')
+      return _getEligibleTransitions(ticketKey).pipe(
+        switchMap((transitions) => {
+          console.log('transitions = ', transitions)
+          // if create branch, we'll look for dev start transition and
+          // execute if exists
+          const trans = transitions.find((tr) => tr.name === 'Dev Start')
+          console.log('dev start = ', trans)
+          if (trans) {
+            return from(
+              jiraApi.transitionIssue(ticketKey, {
+                transition: {
+                  id: trans.id,
+                },
+              })
+            )
+          }
+          return of(null)
+        }),
+        catchError((e) => e)
+      )
+    },
+    push: (payload) => {
+      console.log('handle push commit')
+    },
+  }
+  return registry[eventName](payload)
 }
 
-/**
- *
- * @param {object} gitCommit (A git commit object from github context)
- */
-const processCommit = (gitCommit) => {
-  const { message } = gitCommit
-  console.log(`commit message = ${message}`)
-  if (message) {
-    const jiraKey = extractJiraKey(message)
-    if (jiraKey) {
-      // get jira status
-      return _handleTicketTransition(jiraKey)
-    }
-  }
-  return of(null)
-}
-
-const processBranchCreated = (branchName) => {
-  console.log(`branch name  = ${branchName}`)
-  const jiraKey = extractJiraKey(branchName)
-  if (jiraKey) {
-    console.log('jiraKey = ', jiraKey)
-    return _handleTicketTransition(jiraKey)
-  }
-  return of(null)
-}
-
-const processPRReivew = (prTitle) => {
-  const jiraKey = extractJiraKey(prTitle)
-  if (jiraKey) {
-    return _handleTicketTransition(jiraKey)
-  }
-  return of(null)
+const processGithubEvent = (github) => {
+  const evt = parseGithubEventContext(github)
+  const { eventName, payload } = evt
+  return _updateTransition(eventName, payload);
 }
 
 _init()
 
 module.exports = {
-  processCommit,
-  processBranchCreated,
-  processPRReivew,
-  _getJiraTicketDetails,
+  processGithubEvent,
 }

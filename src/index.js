@@ -1,9 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const service = require('./service')
-const helper = require('./helper')
-const { catchError } = require('rxjs/operators')
-const { of } = require('rxjs')
 try {
   const time = new Date().toTimeString()
   core.setOutput('time', time)
@@ -15,46 +12,9 @@ try {
   console.log('Event name here = ', eventName)
   console.log(`The event payload: ${payload}`)
 
-  const data = helper.parseGithubEventContext(github)
-  console.log('data here = ', data)
-  
-  const { commits, ref: branchName, ref_type, action: prAction, pull_request } = github.context.payload
-  if (commits) {
-    const commitPayload = commits[0]
-    if (commitPayload) {
-      console.log('commit message here == ', commitPayload)
-      service
-        .processCommit(commitPayload)
-        .pipe(catchError((e) => of(e)))
-        .subscribe((results) => {
-          console.log('results = ', results)
-        })
-    }
-  }
-
-  if (ref_type && ref_type === 'branch') {
-    // process transition for branch creation
-    if (branchName) {
-      console.log(`processing 'create branch' event for branch ${branchName}`)
-      service
-        .processBranchCreated(branchName)
-        .pipe(catchError((e) => of(e)))
-        .subscribe((results) => {
-          console.log(`processed branch create event successfully result = `, results)
-        })
-    }
-  }
-
-  if (prAction && (prAction === 'review_requested' || prAction === 'ready_for_review')) {
-    if (pull_request.title) {
-      service
-        .processPRReivew(pull_request.title)
-        .pipe(catchError((e) => of(e)))
-        .subscribe((results) => {
-          console.log(`processed PR '${prAction}' event successfully result = `, results)
-        })
-    }
-  }
+  service.processGithubEvent(github).subscribe((result) => {
+    console.log('result = ', result)
+  })
 } catch (error) {
   core.setFailed(error.message)
 }
