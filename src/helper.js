@@ -6,7 +6,7 @@ function extractJiraKey(commitMssg) {
 
 function parseJiraIssueRes(issueRes) {
   const { fields, id } = issueRes
-  console.log('parse jira issue res called fields = ', fields); 
+  // console.log('parse jira issue res called fields = ', fields); 
   return {
     id,
     status: fields.status
