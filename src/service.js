@@ -27,22 +27,6 @@ const _init = () => {
   jiraApi = new JiraClient(jiraConfig)
 }
 
-// // this code will get detail commit and pr info from jira
-// const getJiraTicketDevInfo = (ticketId) => {
-//   const pr$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'pullrequest'))
-//   const commits$ = from(jiraApi.getDevStatusDetail(ticketId, 'GitHub', 'repository'))
-//   return forkJoin([pr$, commits$]).pipe(
-//     map(([prs, commits]) => {
-//       // transform array results into object
-//       return {
-//         prs,
-//         commits,
-//       }
-//     }),
-//     catchError((e) => of(e))
-//   )
-// }
-
 const _getJiraTicketDevSummary = (ticketId) => {
   return from(jiraApi.getDevStatusSummary(ticketId)).pipe(
     map((data) => {
@@ -57,7 +41,7 @@ const _getJiraTicketDevSummary = (ticketId) => {
 }
 
 const _getJiraTicketDetails = (ticketKey) => {
-  console.log(`invoking getJiraDetails with ticket id ${ticketKey}`)
+  console.log(`invoking getJiraDetails with ticket key '${ticketKey}'`)
   return from(jiraApi.findIssue(ticketKey)).pipe(
     // map((res) => res.data),
     map((data) => parseJiraIssueRes(data)),
@@ -80,9 +64,9 @@ const _getJiraTicketDetails = (ticketKey) => {
  * @param {*} data
  */
 const _handleTransition = (data) => {
+  console.log(' in handle transition data = ', JSON.stringify(data, null, 2))
   const { jiraKey, totalCommits, transitions } = data
 
-  // if (totalCommits === 0) {
   // initial commit, see if has dev start transition available
   const trans = transitions.find((tr) => tr.name === 'Dev Start')
   // trigger transition if it is initial commit against the ticket and
@@ -96,7 +80,6 @@ const _handleTransition = (data) => {
       },
     })
   }
-  // }
   return data
 }
 
@@ -105,6 +88,37 @@ const getEligibleTransitions = (ticketKey) => {
     map((data) => {
       return data.transitions
     })
+  )
+}
+
+const _handleTicketTransition = (jiraKey) => {
+  return _getJiraTicketDetails(jiraKey).pipe(
+    map((data) => {
+      const { id, status, devInfo } = data
+      const { totalPrs, totalCommits } = devInfo
+      return {
+        jiraId: id,
+        jiraKey,
+        jiraStatus: {
+          id: status.id,
+          name: status.name,
+        },
+        totalCommits,
+        totalPrs,
+      }
+    }),
+    switchMap((data) => {
+      const { jiraKey } = data
+      return getEligibleTransitions(jiraKey).pipe(
+        map((transitions) => {
+          return { ...data, transitions }
+        })
+      )
+    }),
+    map((data) => {
+      return _handleTransition(data)
+    }),
+    catchError(e => of(e))
   )
 }
 
@@ -146,8 +160,17 @@ const processCommit = (gitCommit) => {
           return _handleTransition(data)
         })
       )
-      // move the ticket if status is in ToDo
     }
+  }
+  return of(null)
+}
+
+const processBranchCreated = (branchName) => {
+  console.log(`branch name  = ${branchName}`)
+  const jiraKey = extractJiraKey(branchName)
+  if (jiraKey) {
+    console.log('jiraKey = ', jiraKey)
+    return _handleTicketTransition(jiraKey)
   }
   return of(null)
 }
@@ -156,5 +179,6 @@ _init()
 
 module.exports = {
   processCommit,
+  processBranchCreated,
   _getJiraTicketDetails,
 }

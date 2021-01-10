@@ -10,7 +10,7 @@ try {
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`)
-  const { commits } = github.context.payload
+  const { commits, ref: branchName, ref_type } = github.context.payload
   if (commits) {
     const commitPayload = commits[0]
     if (commitPayload) {
@@ -23,6 +23,15 @@ try {
         })
     }
   }
+
+  if(ref_type && ref_type === 'branch') {
+    // process transition for branch creation
+    if(branchName) {
+      console.log(`processing 'create branch' event for branch ${branchName}`)
+      
+    }
+  }
+
 } catch (error) {
   core.setFailed(error.message)
 }
