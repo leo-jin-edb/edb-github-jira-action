@@ -68,12 +68,15 @@ const _handleTransition = (data) => {
   const { jiraKey, totalCommits, transitions } = data
 
   // initial commit, see if has dev start transition available
-  const trans = transitions.find((tr) => tr.name === 'Dev Start')
+  let trans = transitions.find((tr) => tr.name === 'Dev Start')
+  if (!trans) {
+    trans = transitions.find((tr) => tr.name === 'Dev On Hold')
+  }
   // trigger transition if it is initial commit against the ticket and
   // it has 'Dev start" available as a valid transition
   if (trans) {
     // execute transition
-    console.log(`commits = ${totalCommits} and trans ${trans.name}, we are transitioning the issue`)
+    // console.log(`commits = ${totalCommits} and trans ${trans.name}, we are transitioning the issue`)
     jiraApi.transitionIssue(jiraKey, {
       transition: {
         id: trans.id,
@@ -149,10 +152,19 @@ const processBranchCreated = (branchName) => {
   return of(null)
 }
 
+const processPRReivew = (prTitle) => {
+  const jiraKey = extractJiraKey(prTitle)
+  if (jiraKey) {
+    return _handleTicketTransition(jiraKey)
+  }
+  return of(null)
+}
+
 _init()
 
 module.exports = {
   processCommit,
   processBranchCreated,
+  processPRReivew,
   _getJiraTicketDetails,
 }

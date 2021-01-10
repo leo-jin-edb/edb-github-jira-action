@@ -10,7 +10,7 @@ try {
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`)
-  const { commits, ref: branchName, ref_type } = github.context.payload
+  const { commits, ref: branchName, ref_type, action: prAction, pull_request } = github.context.payload
   if (commits) {
     const commitPayload = commits[0]
     if (commitPayload) {
@@ -35,6 +35,15 @@ try {
           console.log(`processed branch create event successfully result = `, results)
         })
     }
+  }
+
+  if (prAction && (prAction === 'review_requested' || prAction === 'ready_for_review')) {
+    service
+      .processPRReivew(pull_request.title)
+      .pipe(catchError((e) => of(e)))
+      .subscribe((results) => {
+        console.log(`processed PR '${prAction}' event successfully result = `, results)
+      })
   }
 } catch (error) {
   core.setFailed(error.message)
