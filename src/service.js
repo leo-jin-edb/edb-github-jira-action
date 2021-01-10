@@ -1,7 +1,7 @@
 const { default: axios } = require('axios')
 const { parseGithubEventContext, parseJiraIssueRes } = require('./helper')
 const { from, of, forkJoin } = require('rxjs')
-const { map, catchError, switchMap } = require('rxjs/operators')
+const { map, catchError, switchMap, mapTo } = require('rxjs/operators')
 const JiraClient = require('jira-client')
 
 let jiraApi
@@ -113,6 +113,8 @@ const _updateTransition = (eventName, payload) => {
                   id: trans.id,
                 },
               })
+            ).pipe(
+              mapTo(`${ticketKey} status was updated.`)
             )
           }
           return of(null)
@@ -138,8 +140,9 @@ const _updateTransition = (eventName, payload) => {
                 },
               })
             )
+          } else {
+            return of(null)
           }
-          return of(null)
         }),
         catchError((e) => e)
       )
