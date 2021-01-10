@@ -138,7 +138,9 @@ const _updateTransition = (eventName, payload) => {
                 transition: {
                   id: trans.id,
                 },
-              })
+              }).pipe(
+                mapTo(`${ticketKey} status was updated.`)
+              )
             )
           } else {
             return of(null)
