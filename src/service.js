@@ -118,7 +118,7 @@ const _handleTicketTransition = (jiraKey) => {
     map((data) => {
       return _handleTransition(data)
     }),
-    catchError(e => of(e))
+    catchError((e) => of(e))
   )
 }
 
@@ -133,33 +133,7 @@ const processCommit = (gitCommit) => {
     const jiraKey = extractJiraKey(message)
     if (jiraKey) {
       // get jira status
-      return _getJiraTicketDetails(jiraKey).pipe(
-        map((data) => {
-          const { id, status, devInfo } = data
-          const { totalPrs, totalCommits } = devInfo
-          return {
-            jiraId: id,
-            jiraKey,
-            jiraStatus: {
-              id: status.id,
-              name: status.name,
-            },
-            totalCommits,
-            totalPrs,
-          }
-        }),
-        switchMap((data) => {
-          const { jiraKey } = data
-          return getEligibleTransitions(jiraKey).pipe(
-            map((transitions) => {
-              return { ...data, transitions }
-            })
-          )
-        }),
-        map((data) => {
-          return _handleTransition(data)
-        })
-      )
+      return _handleTicketTransition(jiraKey)
     }
   }
   return of(null)
