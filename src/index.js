@@ -24,14 +24,18 @@ try {
     }
   }
 
-  if(ref_type && ref_type === 'branch') {
+  if (ref_type && ref_type === 'branch') {
     // process transition for branch creation
-    if(branchName) {
+    if (branchName) {
       console.log(`processing 'create branch' event for branch ${branchName}`)
-      
+      service
+        .processBranchCreated(branchName)
+        .pipe(catchError((e) => of(e)))
+        .subscribe((results) => {
+          console.log(`processed branch create event successfully result = `, results)
+        })
     }
   }
-
 } catch (error) {
   core.setFailed(error.message)
 }
