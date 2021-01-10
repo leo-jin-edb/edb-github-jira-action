@@ -1,1 +1,2 @@
-require('./helper-test');
+require('./index-test')
+require('./helper-test')

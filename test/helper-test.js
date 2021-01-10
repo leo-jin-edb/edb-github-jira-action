@@ -20,7 +20,7 @@ describe(`Test helpers`, function () {
     expect(result).to.equal('jii-008')
   })
 
-  it.only(`Should parse status properly from jira response`, function() {
+  it(`Should parse status properly from jira response`, function() {
     const result = helper.parseJiraIssueRes(mockJiraRes.issue);
     expect(result.status.name).to.equal('In Progress');
   })
