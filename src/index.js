@@ -9,7 +9,7 @@ try {
   core.setOutput('success', true)
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The context = ${github.context, null, 2}`)
+  console.log(`The context = ${JSON.stringify(github.context, null, 2)}`)
   console.log(`The event payload: ${payload}`)
   const { commits, ref: branchName, ref_type, action: prAction, pull_request } = github.context.payload
   if (commits) {
