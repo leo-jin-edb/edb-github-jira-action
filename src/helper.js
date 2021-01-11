@@ -3,7 +3,7 @@ function _parsePRPayload(payload) {
   const { title: pr_title, head: sourceBranch } = pull_request
   const { ref: sourceBranchName, label: sourceBranchLabel } = sourceBranch
   let ticketKey = extractJiraKey(pr_title)
-  if (!pr_title) {
+  if (!ticketKey) {
     // try the branch name
     ticketKey = extractJiraKey(sourceBranchName)
   }
