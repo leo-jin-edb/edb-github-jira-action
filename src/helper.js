@@ -56,9 +56,8 @@ function parseJiraIssueRes(issueRes) {
 }
 
 function parseGithubEventContext(github) {
-  console.log('here github context = ', github.context)
   const { eventName, payload } = github.context
-  if (eventName === 'pullrequest') {
+  if (eventName === 'pull_request') {
     return {
       eventName,
       payload: _parsePRPayload(payload),

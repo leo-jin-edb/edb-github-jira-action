@@ -129,7 +129,6 @@ const _updateTransition = (eventName, payload) => {
           // if create branch, we'll look for dev start transition and
           // execute if exists
           const trans = transitions.find((tr) => tr.name === 'Dev Start')
-          console.log('dev start = ', trans)
           if (trans) {
             return from(
               jiraApi.transitionIssue(ticketKey, {
