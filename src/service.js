@@ -70,7 +70,7 @@ const _updateTransition = (eventName, payload) => {
   const { ticketKey } = payload
   const registry = {
     pull_request: (payload) => {
-      console.log('handle pull request')
+      console.log('handle pull request payload = ', payload)
       const { action } = payload
       return _getEligibleTransitions(ticketKey).pipe(
         switchMap((transitions) => {
@@ -122,7 +122,7 @@ const _updateTransition = (eventName, payload) => {
     },
     push: (payload) => {
       // TODO: refactor out to another function
-      console.log('handle push commit') 
+      console.log('handle push commit')
       return _getEligibleTransitions(ticketKey).pipe(
         switchMap((transitions) => {
           console.log('transitions = ', transitions)
