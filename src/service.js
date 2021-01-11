@@ -68,6 +68,9 @@ const _getEligibleTransitions = (ticketKey) => {
 
 const _updateTransition = (eventName, payload) => {
   const { ticketKey } = payload
+  if (!ticketKey) {
+    return of(null)
+  }
   const registry = {
     pull_request: (payload) => {
       console.log('handle pull request payload = ', payload)
@@ -105,7 +108,6 @@ const _updateTransition = (eventName, payload) => {
           // if create branch, we'll look for dev start transition and
           // execute if exists
           const trans = transitions.find((tr) => tr.name === 'Dev Start')
-          console.log('dev start = ', trans)
           if (trans) {
             return from(
               jiraApi.transitionIssue(ticketKey, {
