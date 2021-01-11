@@ -69,7 +69,7 @@ const _getEligibleTransitions = (ticketKey) => {
 const _updateTransition = (eventName, payload) => {
   const { ticketKey } = payload
   const registry = {
-    pullrequest: (payload) => {
+    pull_request: (payload) => {
       console.log('handle pull request')
       const { action } = payload
       return _getEligibleTransitions(ticketKey).pipe(
