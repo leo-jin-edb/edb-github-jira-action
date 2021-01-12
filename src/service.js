@@ -66,18 +66,33 @@ const _getEligibleTransitions = (ticketKey) => {
   )
 }
 
+/**
+ * This private function does the actual call to jira 
+ * and transition the ticket.
+ * 
+ * @param {string} eventName 
+ * @param {object} payload 
+ */
 const _updateTransition = (eventName, payload) => {
   const { ticketKey } = payload
   if (!ticketKey) {
     return of(null)
   }
+  const transitionTicket = (ticketKey, transitionId) => {
+    return from(
+      jiraApi.transitionIssue(ticketKey, {
+        transition: {
+          id: transitionId,
+        },
+      })
+    )
+  }
+
   const registry = {
-    pull_request: (payload) => {
-      console.log('handle pull request payload = ', payload)
+    pull_request: () => {
       const { action } = payload
       return _getEligibleTransitions(ticketKey).pipe(
         switchMap((transitions) => {
-          console.log('transitions = ', transitions)
           let trans
           if (action === 'review_requested') {
             console.log('perform a transition')
@@ -87,67 +102,43 @@ const _updateTransition = (eventName, payload) => {
             trans = transitions.find((tr) => tr.name === 'Dev Done')
           }
           if (trans) {
-            return from(
-              jiraApi.transitionIssue(ticketKey, {
-                transition: {
-                  id: trans.id,
-                },
-              })
-            )
+            return transitionTicket(ticketKey, trans.id)
           }
           return of(null)
         }),
         catchError((e) => of(e))
       )
     },
-    create: (payload) => {
-      console.log('handle create')
+    create: () => {
       return _getEligibleTransitions(ticketKey).pipe(
         switchMap((transitions) => {
-          console.log('transitions = ', transitions)
           // if create branch, we'll look for dev start transition and
           // execute if exists
           const trans = transitions.find((tr) => tr.name === 'Dev Start')
           if (trans) {
-            return from(
-              jiraApi.transitionIssue(ticketKey, {
-                transition: {
-                  id: trans.id,
-                },
-              })
-            )
+            return transitionTicket(ticketKey, trans.id)
           }
           return of(null)
         }),
         catchError((e) => e)
       )
     },
-    push: (payload) => {
-      // TODO: refactor out to another function
-      console.log('handle push commit')
+    push: () => {
       return _getEligibleTransitions(ticketKey).pipe(
         switchMap((transitions) => {
-          console.log('transitions = ', transitions)
           // if create branch, we'll look for dev start transition and
           // execute if exists
           const trans = transitions.find((tr) => tr.name === 'Dev Start')
           if (trans) {
-            return from(
-              jiraApi.transitionIssue(ticketKey, {
-                transition: {
-                  id: trans.id,
-                },
-              })
-            )
-          } else {
-            return of(null)
+            return transitionTicket(ticketKey, trans.id)
           }
+          return of(null)
         }),
         catchError((e) => e)
       )
     },
   }
-  return registry[eventName](payload)
+  return registry[eventName]()
 }
 
 const processGithubEvent = (github) => {
