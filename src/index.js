@@ -12,9 +12,9 @@ try {
   console.log('Event name here = ', eventName)
   console.log(`The event payload: ${payload}`)
 
-  service.processGithubEvent(github).subscribe((result) => {
-    console.log('result = ', result)
-  })
+  // service.processGithubEvent(github).subscribe((result) => {
+  //   console.log('result = ', result)
+  // })
 } catch (error) {
   core.setFailed(error.message)
 }
