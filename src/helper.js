@@ -77,9 +77,7 @@ function parseGithubEventContext(github) {
     }
   }
 
-  console.log('ret here = ', ret)
-
-  if (ret.ticketKey) {
+  if (ret.payload.ticketKey) {
     return ret
   }
   return github.context
