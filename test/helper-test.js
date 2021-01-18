@@ -30,7 +30,7 @@ describe(`Test helpers`, function () {
   describe('Test parse github context and payload for PR events', function () {
     let githubObj = {
       context: {
-        eventName: 'pullrequest',
+        eventName: 'pull_request',
         payload: null,
       },
     }
@@ -45,13 +45,13 @@ describe(`Test helpers`, function () {
 
     it(`Should parse pull request payload properly`, function () {
       const result = helper.parseGithubEventContext(githubObj)
-      expect(result.eventName).to.equal('pullrequest')
+      expect(result.eventName).to.equal('pull_request')
       expect(result.payload.action).to.exist
       expect(result.payload.ticketKey).to.equal('tp-6')
     })
   })
 
-  describe('Test parse github context and payload for create branch', function() {
+  describe('Test parse github context and payload for create branch', function () {
     let githubObj = {
       context: {
         eventName: 'create',
@@ -67,7 +67,7 @@ describe(`Test helpers`, function () {
       githubObj = null
     })
 
-    it(`Should parse create branch payload properly`, function() {
+    it(`Should parse create branch payload properly`, function () {
       const result = helper.parseGithubEventContext(githubObj)
       console.log(result)
       expect(result.eventName).to.equal('create')
@@ -75,7 +75,7 @@ describe(`Test helpers`, function () {
     })
   })
 
-  describe('Test parse github context and payload for create branch', function() {
+  describe('Test parse github context and payload for create branch', function () {
     let githubObj = {
       context: {
         eventName: 'push',
@@ -91,11 +91,34 @@ describe(`Test helpers`, function () {
       githubObj = null
     })
 
-    it(`Should parse a push commit payload properly`, function() {
+    it(`Should parse a push commit payload properly`, function () {
       const result = helper.parseGithubEventContext(githubObj)
       console.log(result)
       expect(result.eventName).to.equal('push')
       expect(result.payload.ticketKey.toLowerCase()).to.equal('tp-6')
+    })
+  })
+  
+  describe('Test parse github context and payload for jira invoked repo event', function () {
+    let githubObj = {
+      context: {
+        eventName: 'repository_dispatch',
+        payload: null,
+      },
+    }
+
+    before(function () {
+      githubObj.context.payload = require('./mocks/mock-jira-invoked-repo-event.json')
+    })
+
+    after(function () {
+      githubObj = null
+    })
+
+    it(`Should parse a push commit payload properly`, function () {
+      const result = helper.parseGithubEventContext(githubObj)
+      expect(result.eventName).to.equal('repository_dispatch')
+      expect(result.payload.client_payload).to.exist
     })
   })
 })

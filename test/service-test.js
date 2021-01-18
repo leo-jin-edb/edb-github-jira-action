@@ -1,5 +1,5 @@
 const { processGithubEvent } = require('../src/service')
-describe.only('Test Services', function () {
+describe('Test Services', function () {
   let eventData = {
     eventName: 'pullrequest',
     payload: {
@@ -16,6 +16,6 @@ describe.only('Test Services', function () {
 
   it(`Test process github event`, function () {
     console.log('works')
-    processGithubEvent(eventData)
+    // processGithubEvent(eventData)
   })
 })

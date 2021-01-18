@@ -1,6 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const service = require('./service')
+const jiraGithubStrategy = require('./jira-github.strategy')
 try {
   const time = new Date().toTimeString()
   core.setOutput('time', time)
@@ -15,6 +16,15 @@ try {
   // service.processGithubEvent(github).subscribe((result) => {
   //   console.log('result = ', result)
   // })
+  jiraGithubStrategy
+    .processGithubEvent(github)
+    .then((data) => {
+      console.log('processed event data = ', data)
+    })
+    .catch((e) => {
+      throw e
+    })
 } catch (error) {
   core.setFailed(error.message)
 }
+

@@ -75,6 +75,7 @@ function parseGithubEventContext(github) {
       payload: _parsePushCommitPayload(payload),
     }
   }
+  return github.context
 }
 
 module.exports = {
