@@ -12,19 +12,22 @@ try {
   const eventName = github.context.eventName
   console.log('Event name here = ', eventName)
   console.log(`The event payload: ${payload}`)
-
-  // service.processGithubEvent(github).subscribe((result) => {
-  //   console.log('result = ', result)
-  // })
-  jiraGithubStrategy
-    .processGithubEvent(github)
-    .then((data) => {
-      console.log('processed event data = ', data)
+  const strategy = core.getInput('strategy') || 'bidirectional'
+  console.log(`Executing strategy "${strategy}"`)
+  if (strategy === 'bidirectional') {
+    jiraGithubStrategy
+      .processGithubEvent(github)
+      .then((data) => {
+        console.log('processed event data = ', data)
+      })
+      .catch((e) => {
+        throw e
+      })
+  } else {
+    service.processGithubEvent(github).subscribe((result) => {
+      console.log('result = ', result)
     })
-    .catch((e) => {
-      throw e
-    })
+  }
 } catch (error) {
   core.setFailed(error.message)
 }
-
