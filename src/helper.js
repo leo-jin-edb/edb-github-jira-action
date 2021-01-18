@@ -57,7 +57,7 @@ function parseJiraIssueRes(issueRes) {
 
 function parseGithubEventContext(github) {
   const { eventName, payload } = github.context
-  let ret = github.context
+  let ret = {}
   if (eventName === 'pull_request') {
     ret = {
       eventName,
@@ -76,6 +76,8 @@ function parseGithubEventContext(github) {
       payload: _parsePushCommitPayload(payload),
     }
   }
+
+  console.log('ret here = ', ret)
 
   if (ret.ticketKey) {
     return ret
