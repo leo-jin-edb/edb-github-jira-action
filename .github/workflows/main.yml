@@ -1,4 +1,5 @@
-on: [push]
+on: 
+  repository_dispatch
 
 jobs:
   edb_on_push:
