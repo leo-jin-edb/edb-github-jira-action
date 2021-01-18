@@ -20,6 +20,7 @@ function _parseCreatePayload(payload) {
       ticketKey: extractJiraKey(branch_name),
     }
   }
+  return payload
 }
 
 function _parsePushCommitPayload(payload) {
@@ -29,6 +30,7 @@ function _parsePushCommitPayload(payload) {
       ticketKey: extractJiraKey(commits[0].message),
     }
   }
+  return payload
 }
 
 /**
