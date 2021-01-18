@@ -73,7 +73,10 @@ const processGithubEvent = async (github) => {
   const evt = parseGithubEventContext(github)
   const { eventName, payload } = evt
   const { repository } = payload
-  console.log('here in process eevent payload = ', payload)
+  if (!payload.client_payload) {
+    console.log('jira-github strategy found no client payload, we skip')
+    return null
+  }
   repo = repository.name
   owner = repository.owner.login
   console.log(`processing github event for repository "${repo}" and owner "${owner}"`)
