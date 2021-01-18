@@ -9,7 +9,7 @@ function _parsePRPayload(payload) {
   }
   return {
     action,
-    ticketKey
+    ticketKey,
   }
 }
 
@@ -20,7 +20,6 @@ function _parseCreatePayload(payload) {
       ticketKey: extractJiraKey(branch_name),
     }
   }
-  return payload
 }
 
 function _parsePushCommitPayload(payload) {
@@ -30,7 +29,6 @@ function _parsePushCommitPayload(payload) {
       ticketKey: extractJiraKey(commits[0].message),
     }
   }
-  return payload
 }
 
 /**
@@ -59,23 +57,28 @@ function parseJiraIssueRes(issueRes) {
 
 function parseGithubEventContext(github) {
   const { eventName, payload } = github.context
+  let ret = github.context
   if (eventName === 'pull_request') {
-    return {
+    ret = {
       eventName,
       payload: _parsePRPayload(payload),
     }
   }
   if (eventName === 'create') {
-    return {
+    ret = {
       eventName,
       payload: _parseCreatePayload(payload),
     }
   }
   if (eventName === 'push') {
-    return {
+    ret = {
       eventName,
       payload: _parsePushCommitPayload(payload),
     }
+  }
+
+  if (ret.ticketKey) {
+    return ret
   }
   return github.context
 }
