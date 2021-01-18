@@ -75,6 +75,7 @@ const _getEligibleTransitions = (ticketKey) => {
  */
 const _updateTransition = (eventName, payload) => {
   const { ticketKey } = payload
+  console.log(`Processing ticket "${ticketKey}", for event "${eventName}"`)
   if (!ticketKey) {
     return of(null)
   }
