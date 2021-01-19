@@ -77,7 +77,7 @@ function parseGithubEventContext(github) {
     }
   }
 
-  if (ret.payload.ticketKey) {
+  if (ret.payload && ret.payload.ticketKey) {
     return ret
   }
   return github.context
