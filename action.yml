@@ -1,16 +1,13 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'EDB JIRA + Github Integration'
+description: 'Supports two syncing strategies.  Uni-directional or Bi-directional'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  strategy:  # type of syncing strategy
+    description: 'possible values "bidirectional" and "unidirectional"'
     required: true
-    default: 'World'
-  jira-host:  # Base jira host url
-    description: 'Jira Host Url'
-    required: true
+    default: 'unidirectional'
 outputs:
   time: # id of output
-    description: 'The time we greeted you'
+    description: 'Placeholder for output'
 runs:
   using: 'node12'
   main: 'index.js'
