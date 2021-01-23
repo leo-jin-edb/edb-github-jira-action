@@ -1,6 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
-const service = require('./service')
+const jiraFirstStrategy = require('./jira-first.strategy')
 const jiraGithubStrategy = require('./jira-github.strategy')
 try {
   const time = new Date().toTimeString()
@@ -12,22 +12,23 @@ try {
   const eventName = github.context.eventName
   console.log('Event name here = ', eventName)
   console.log(`The event payload: ${payload}`)
-  const strategy = core.getInput('strategy') || 'bidirectional'
-  console.log(`Executing strategy "${strategy}"`)
-  if (strategy === 'bidirectional') {
-    jiraGithubStrategy
-      .processGithubEvent(github)
-      .then((data) => {
-        console.log('processed event data = ', data)
-      })
-      .catch((e) => {
-        throw e
-      })
+  const strategyName = core.getInput('strategy') || 'bidirectional'
+  console.log(`Executing strategy "${strategyName}"`)
+  let strategy
+
+  if (strategyName === 'bidirectional') {
+    strategy = jiraGithubStrategy
   } else {
-    service.processGithubEvent(github).subscribe((result) => {
-      console.log('result = ', result)
-    })
+    strategy = jiraFirstStrategy
   }
+  strategy
+    .processGithubEvent(github)
+    .then((data) => {
+      console.log(`Successfully processed github event data = `, data)
+    })
+    .catch((e) => {
+      throw e
+    })
 } catch (error) {
   core.setFailed(error.message)
 }

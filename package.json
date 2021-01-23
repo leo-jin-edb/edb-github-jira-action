@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "test-watch": "mocha --watch",
-    "test-integration": "act --secret-file local.secrets -e local-event-payload.json"
+    "test-integration": "act repository_dispatch --secret-file local.secrets -e local-event-payload.json"
   },
   "keywords": [],
   "author": "",
@@ -16,11 +16,11 @@
     "@actions/github": "^4.0.0",
     "@octokit/rest": "^18.0.12",
     "axios": "^0.21.1",
-    "jira-client": "^6.21.1",
-    "rxjs": "^6.6.3"
+    "jira-client": "^6.21.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "mocha": "^8.2.1",
     "sinon": "^9.2.3"
   }
